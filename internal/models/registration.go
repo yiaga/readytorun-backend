@@ -1,26 +1,27 @@
 package models
 
-import "time"
-
 type Registration struct {
-    ID                     int       `json:"id"`
-    Fullname               string    `json:"fullname"`
-    Dob                    string    `json:"dob"` // kept as string for simplicity (yyyy-mm-dd)
-    Gender                 string    `json:"gender"`
-    Email                  string    `json:"email"`
-    Phone                  string    `json:"phone"`
-    StateOfOrigin          string    `json:"state_of_origin"`
-    StateOfResidence       string    `json:"state_of_residence"`
-    Education              string    `json:"education"`
-    PreviousOffice         string    `json:"previous_office"`
-    CardCarryingMember     bool      `json:"card_carrying_member"`
-    PartyMembershipDoc     string    `json:"party_membership_doc"`
-    CV                     string    `json:"cv"`
-    Motivation             string    `json:"motivation"`
-    PoliticalUnderstanding string    `json:"political_understanding"`
-    AssistanceNeeded       string    `json:"assistance_needed"`
-    Availability           string    `json:"availability"`
-    PreferredCommunication string    `json:"preferred_communication"`
-    Consent                bool      `json:"consent"`
-    CreatedAt              time.Time `json:"created_at"`
+    ID                     int    `json:"id"`
+    Fullname               string `json:"fullname"`
+    Dob                    string `json:"dateOfBirth"`
+    Gender                 string `json:"gender"`
+    Email                  string `json:"email"`
+    Phone                  string `json:"phone"`
+    StateOfOrigin          string `json:"stateOfOrigin"`
+    StateOfResidence       string `json:"stateOfResidence"`
+    Education              string `json:"education"`
+    PreviousOffice         string `json:"previousOffice"`
+    InterestedOffice       string `json:"interestedOffice"`
+    PreviousContest        string `json:"previousContest"`
+    CardCarryingMember     bool   `json:"partyMember"`
+    PartyMembershipDocLink string `json:"partyMembershipDocLink"` // Changed to store Google Drive link
+    CVLink                 string `json:"cvLink"`                 // Changed to store Google Drive link
+    Motivation             string `json:"motivation"`
+    PoliticalUnderstanding string `json:"politicalUnderstanding"`
+    AssistanceNeeded       string `json:"assistanceNeeded"` // Stored as a JSON string
+    OtherSupport           string `json:"otherSupport"`
+    Availability           string `json:"availability"`     // Stored as a JSON string
+    PreferredCommunication string `json:"communication"`
+    Consent                bool   `json:"consent"`
+    CreatedAt              string `json:"createdAt"` // Add this new field
 }

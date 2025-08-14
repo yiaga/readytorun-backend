@@ -41,7 +41,7 @@ func GetContacts(w http.ResponseWriter, r *http.Request) {
 func GetRegistrations(w http.ResponseWriter, r *http.Request) {
     rows, err := database.DB.Query(`
         SELECT id, fullname, dob, gender, email, phone, state_of_origin, state_of_residence,
-               education, previous_office, card_carrying_member, party_membership_doc, cv, motivation,
+               education, previous_office, card_carrying_member, party_membership_doc_link, cv_link, motivation,
                political_understanding, assistance_needed, availability, preferred_communication,
                consent, created_at
         FROM registrations
@@ -59,7 +59,7 @@ func GetRegistrations(w http.ResponseWriter, r *http.Request) {
         var r models.Registration
         err := rows.Scan(
             &r.ID, &r.Fullname, &r.Dob, &r.Gender, &r.Email, &r.Phone, &r.StateOfOrigin, &r.StateOfResidence,
-            &r.Education, &r.PreviousOffice, &r.CardCarryingMember, &r.PartyMembershipDoc, &r.CV,
+            &r.Education, &r.PreviousOffice, &r.CardCarryingMember, &r.PartyMembershipDocLink, &r.CVLink,
             &r.Motivation, &r.PoliticalUnderstanding, &r.AssistanceNeeded, &r.Availability,
             &r.PreferredCommunication, &r.Consent, &r.CreatedAt,
         )

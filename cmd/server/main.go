@@ -18,6 +18,6 @@ func main() {
 	http.HandleFunc("/api/admin/contacts", handlers.GetContacts)
 	http.HandleFunc("/api/admin/registrations", handlers.GetRegistrations)
 
-	log.Println("Server running on http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Println("Server running on http://localhost:5001")
+	log.Fatal(http.ListenAndServe(":5001", nil))
 }
