@@ -15,7 +15,18 @@ func CreateContact(w http.ResponseWriter, r *http.Request) {
         http.Error(w, "Invalid JSON payload", http.StatusBadRequest)
         return
     }
+    
+    // ✅ Validate subject before hitting the DB
+    allowedSubjects := map[string]bool{
+        "registration support": true,
+        "volunteer":            true,
+        "general inquiry":      true,
+    }
 
+    if !allowedSubjects[contact.Subject] {
+        http.Error(w, "Invalid subject value", http.StatusBadRequest)
+        return
+    }
     stmt, err := database.DB.Prepare(`
         INSERT INTO contacts(fullname, email, phone, subject, message)
         VALUES (?, ?, ?, ?, ?)

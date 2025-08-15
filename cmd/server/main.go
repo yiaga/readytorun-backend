@@ -5,19 +5,27 @@ import (
 	"net/http"
 	"readytorun-backend/internal/database"
 	"readytorun-backend/internal/handlers"
+	"readytorun-backend/internal/middleware"
 )
 
 func main() {
 	database.ConnectDB()
+	mux := http.NewServeMux()
 
 	// Public
-	http.HandleFunc("/api/contact", handlers.CreateContact)
-	http.HandleFunc("/api/registration", handlers.CreateRegistration)
+	mux.HandleFunc("/api/contact", handlers.CreateContact)
+	mux.HandleFunc("/api/registration", handlers.CreateRegistration)
 
 	// Admin
-	http.HandleFunc("/api/admin/contacts", handlers.GetContacts)
-	http.HandleFunc("/api/admin/registrations", handlers.GetRegistrations)
+	mux.HandleFunc("/api/admin/contacts", handlers.GetContacts)
+	mux.HandleFunc("/api/admin/registrations", handlers.GetRegistrations)
+
+
+	handler := middleware.CORSMiddleware(mux)
+
 
 	log.Println("Server running on http://localhost:5001")
-	log.Fatal(http.ListenAndServe(":5001", nil))
+	if err := http.ListenAndServe(":5001", handler); err != nil {
+        log.Fatal(err)
+    }
 }
