@@ -1,34 +1,28 @@
 package middleware
 
-import "net/http"
+import (
+	"net/http"
+)
 
+// CORSMiddleware applies CORS headers to HTTP responses
 func CORSMiddleware(next http.Handler) http.Handler {
-    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-        // Get the origin from the request header
-        origin := r.Header.Get("Origin")
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Set allowed origins
+		w.Header().Set("Access-Control-Allow-Origin", "*") // ⚠️ change "*" to your frontend domain in production
 
-        // Define your allowed frontend origins
-        allowedOrigins := map[string]bool{
-            "https://readytorun.vercel.app": true,
-            "https://readytorunng.org": true,
-            "http://localhost:8080": true,
-        }
+		// Set allowed methods
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 
-        // Check if the request origin is in the allowed list
-        if allowedOrigins[origin] {
-            w.Header().Set("Access-Control-Allow-Origin", origin)
-        }
+		// Set allowed headers
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization")
 
-        w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-        w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-        w.Header().Set("Access-Control-Allow-Credentials", "true")
+		// Handle preflight requests
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
 
-        // Handle preflight requests (OPTIONS method)
-        if r.Method == http.MethodOptions {
-            w.WriteHeader(http.StatusNoContent)
-            return
-        }
-
-        next.ServeHTTP(w, r)
-    })
+		// Call the next handler
+		next.ServeHTTP(w, r)
+	})
 }
